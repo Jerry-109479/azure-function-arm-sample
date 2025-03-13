@@ -22,6 +22,18 @@
         "metadata": {
           "description": "The environment for the deployment (e.g., main."
         }
+      },
+      "project": {
+        "type": "string",
+        "metadata": {
+          "description": "The project name for the resource."
+        }
+      },
+      "instance": {
+        "type": "string",
+        "metadata": {
+          "description": "Instance identifier for the resource."
+        }
       }
     },
     "variables": {

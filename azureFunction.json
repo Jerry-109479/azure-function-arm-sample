@@ -11,7 +11,7 @@
       },
       "functionAppName": {
         "type": "string",
-        "defaultValue": "Function1",
+        "defaultValue": "AzureJerryApp001",
         "metadata": {
           "description": "The name of the Azure Function App."
         }

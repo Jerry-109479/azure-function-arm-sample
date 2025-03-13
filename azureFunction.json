@@ -70,7 +70,7 @@
       {
         "type": "Microsoft.Web/sites",
         "apiVersion": "2024-04-01",
-        "name": "[parameters(functionAppName')]",
+        "name": "[parameters('functionAppName')]",
         "location": "[parameters('location')]",
         "dependsOn": [
           "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",

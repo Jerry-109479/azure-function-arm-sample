@@ -1,0 +1,81 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {  
+        "location": {
+        "type": "string",
+        "defaultValue": "[resourceGroup().location]",
+        "metadata": {
+          "description": "Location for the resources."
+        }
+      },
+      "functionAppName": {
+        "type": "string",
+        "defaultValue": "Function1",
+        "metadata": {
+          "description": "The name of the Azure Function App."
+        }
+      }
+    },
+    "variables": {
+        "appServicePlanName": "[concat('azure-function-', parameters('project'), '-app-',parameters('environment'), '-', resourceGroup().location, '-', parameters('instance'))]",
+        "appServiceName": "[concat('azure-function-', parameters('project'), '-app-',parameters('environment'), '-', resourceGroup().location, '-', parameters('instance'))]",
+        "storageAccountName": "[concat('af', parameters('project'), 'app',parameters('environment'), resourceGroup().location, parameters('instance'))]",
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Storage/storageAccounts",
+        "apiVersion": "2023-05-01",
+        "name": "[variables('storageAccountName')]",
+        "location": "[parameters('location')]",
+        "sku": {
+          "name": "Standard_LRS"
+        },
+        "kind": "StorageV1",
+        "properties": {}
+      },
+      {
+        "type": "Microsoft.Web/serverfarms",
+        "apiVersion": "2024-04-01",
+        "name": "[variables('appServicePlanName')]",
+        "location": "[parameters('location')]",
+        "sku": {
+          "tier": "Dynamic",
+          "name": "Y1"
+        },
+        "properties": {
+          "perSiteScaling": false,
+          "maximumElasticWorkerCount": 1
+        }
+      },
+      {
+        "type": "Microsoft.Web/sites",
+        "apiVersion": "2024-04-01",
+        "name": "[parameters(functionAppName')]",
+        "location": "[parameters('location')]",
+        "dependsOn": [
+          "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+          "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+        ],
+        "kind": "functionapp",
+        "properties": {
+          "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+          "siteConfig": {
+            "numberOfWorkers": 1,
+            "acrUseManagedIdentityCreds": false,
+            "alwaysOn": false,
+            "http20Enabled": false,
+            "functionAppScaleLimit": 200,
+            "minimumElasticInstanceCount": 1
+          }
+        }
+      }
+    ],
+    "outputs": {
+      "functionAppEndpoint": {
+        "type": "string",
+        "value": "[concat('https://', parameters('functionAppName'), '.azurewebsites.net')]"
+      }
+    }
+  }
+  

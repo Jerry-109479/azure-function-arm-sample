@@ -1,0 +1,44 @@
+name: Deploy Azure Resources
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_name:
+        description: "The name of the project to deploy"
+        required: true
+      environment:
+        type: environment
+        description: "The deployment environment"
+        required: true
+      instance:
+        description: "The instance of the environment"
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set environment variables
+        run: |
+          echo "PROJECT=${{ github.event.inputs.project_name }}" >> $GITHUB_ENV
+          echo "INSTANCE=${{ github.event.inputs.instance }}" >> $GITHUB_ENV
+          if [[ "${{ github.ref_name }}" == "develop" ]]; then echo "RESOURCE_GROUP=rg-nextgenlearningtest-dev-001" >> $GITHUB_ENV; fi
+
+      - name: Deploy Static Web App
+        uses: azure/arm-deploy@v1
+        with:
+          resourceGroupName: ${{ env.RESOURCE_GROUP }}
+          template: ./staticWebApp.json
+          parameters: >
+            environment=${{ github.event.inputs.environment }}
+            project=${{ env.PROJECT }}
+            instance=${{ env.INSTANCE }}

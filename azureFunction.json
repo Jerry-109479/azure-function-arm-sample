@@ -31,7 +31,7 @@
     },
     "variables": {
         "appServicePlanName": "[concat('asp-ulscp-', parameters('project'), '-app-',parameters('environment'), '-', resourceGroup().location, '-', parameters('instance'))]",
-        "storageAccountName": "[concat('stulscp', parameters('project'),parameters('environment'), resourceGroup().location, parameters('instance'))]",
+        "storageAccountName": "[concat('stulscp', parameters('project'),parameters('environment'), parameters('instance'))]",
         "functionAppName": "[concat('af-ulscp-', parameters('project'), '-app-',parameters('environment'), '-', resourceGroup().location, '-', parameters('instance'))]"
     },
     "resources": [

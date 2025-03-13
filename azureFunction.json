@@ -39,7 +39,7 @@
     "variables": {
         "appServicePlanName": "[concat('azure-function-', parameters('project'), '-app-',parameters('environment'), '-', resourceGroup().location, '-', parameters('instance'))]",
         "appServiceName": "[concat('azure-function-', parameters('project'), '-app-',parameters('environment'), '-', resourceGroup().location, '-', parameters('instance'))]",
-        "storageAccountName": "[concat('af', parameters('project'), 'app',parameters('environment'), resourceGroup().location, parameters('instance'))]"
+        "storageAccountName": "[concat('af', parameters('project'), 'app',parameters('environment'), 'ncus', parameters('instance'))]"
 
     },
     "resources": [

@@ -37,7 +37,7 @@ jobs:
       - name: Deploy Function App
         uses: azure/arm-deploy@v1
         with:
-          resourceGroupName: ${{ env.RESOURCE_GROUP }}
+          resourceGroupName: "rg-nextgenlearningtest-dev-001"
           template: ./azureFunction.json
           parameters: >
             environment=${{ github.event.inputs.environment }}

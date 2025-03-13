@@ -15,6 +15,13 @@
         "metadata": {
           "description": "The name of the Azure Function App."
         }
+      },
+      "environment": {
+        "type": "string",
+        "allowedValues": ["main"],
+        "metadata": {
+          "description": "The environment for the deployment (e.g., main."
+        }
       }
     },
     "variables": {

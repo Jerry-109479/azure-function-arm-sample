@@ -31,7 +31,7 @@ jobs:
         run: |
           echo "PROJECT=${{ github.event.inputs.project_name }}" >> $GITHUB_ENV
           echo "INSTANCE=${{ github.event.inputs.instance }}" >> $GITHUB_ENV
-          if [[ "${{ github.ref_name }}" == "main" ]]; then echo "RESOURCE_GROUP=rg-nextgenlearningtest-dev-001" >> $GITHUB_ENV; fi
+          if [[ "${{ github.ref_name }}" == "dev" ]]; then echo "RESOURCE_GROUP=rg-nextgenlearningtest-dev-001" >> $GITHUB_ENV; fi
 
 
       - name: Deploy Function App
